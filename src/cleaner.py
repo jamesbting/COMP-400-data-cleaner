@@ -6,8 +6,8 @@ def validateDataSet(filename):
         print("Every matchID is unique!")
     else:
         print("Found", len(repeatedIDs), "repeated match IDs")
-        print("The following matchIDs are repeated:")
-        print(repeatedIDs)
+        # print("The following matchIDs are repeated:")
+        # print(repeatedIDs)
 
 def checkUniqueness(filename):
     matchIDs = set()
