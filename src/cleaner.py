@@ -12,7 +12,6 @@ def checkUniqueness(filename):
     nonUniqueIDs = set()
     with open(filename,"r") as f:
         reader = csv.reader(f,delimiter = ',')
-        next(reader) # skip header
         for row in reader:
             matchID = row[0]
             if matchID in matchIDs:
@@ -25,13 +24,18 @@ def checkUniqueness(filename):
 def cleanDataSet(filename, new_filename):
     removeDuplicates(filename, new_filename)
 
+def get_headers(filename = "../../headers.txt"):
+    f = open(filename,"r")
+    content = f.read()
+    f.close()
+    return content
 
 def removeDuplicates(filename, new_filename):
     matchIDs = set()
     new_file = open(new_filename, "w")
+    new_file.write(get_headers())
     with open(filename,"r") as f:
         reader = csv.reader(f,delimiter = ',')
-        next(reader) # skip header
         for row in reader:
             matchID = row[0]
             if matchID not in matchIDs and len(row) == 1150:
