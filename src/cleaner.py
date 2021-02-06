@@ -6,14 +6,13 @@ def validateDataSet(filename):
         print("Every matchID is unique!")
     else:
         print("Found", len(repeatedIDs), "repeated match IDs")
-        # print("The following matchIDs are repeated:")
-        # print(repeatedIDs)
 
 def checkUniqueness(filename):
     matchIDs = set()
     nonUniqueIDs = set()
     with open(filename,"r") as f:
         reader = csv.reader(f,delimiter = ',')
+        next(reader) # skip header
         for row in reader:
             matchID = row[0]
             if matchID in matchIDs:
@@ -30,18 +29,18 @@ def cleanDataSet(filename, new_filename):
 def removeDuplicates(filename, new_filename):
     matchIDs = set()
     new_file = open(new_filename, "w")
-
     with open(filename,"r") as f:
         reader = csv.reader(f,delimiter = ',')
+        next(reader) # skip header
         for row in reader:
             matchID = row[0]
-            if matchID not in matchIDs:
+            if matchID not in matchIDs and len(row) == 1150:
                 new_file.write('\n')
                 new_file.write(','.join(row))
             matchIDs.add(matchID)
     new_file.close()
 
-filename = '../pre-cleaning-dataset.csv'
-new_filename = '../post-cleaning-dataset.csv'
+filename = '../../data/pre-cleaning-dataset.csv'
+new_filename = '../../data/post-cleaning-dataset.csv'
 validateDataSet(filename)
 cleanDataSet(filename, new_filename)
