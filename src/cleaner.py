@@ -1,15 +1,12 @@
 import csv
 
 def validateDataSet(filename):
-    repeatedIDs = checkUniqueness(filename)
-    if(repeatedIDs == set()):
-        print("Every matchID is unique!")
-    else:
-        print("Found", len(repeatedIDs), "repeated match IDs")
+    checkUniqueness(filename)
 
 def checkUniqueness(filename):
     matchIDs = set()
     nonUniqueIDs = set()
+    count = 0
     with open(filename,"r") as f:
         reader = csv.reader(f,delimiter = ',')
         for row in reader:
@@ -19,7 +16,13 @@ def checkUniqueness(filename):
                         nonUniqueIDs.add(matchID)
             else:
                 matchIDs.add(matchID)
-    return nonUniqueIDs
+            count += 1
+    f.close()
+    
+    if(nonUniqueIDs == set()):
+        print("Every matchID is unique!")
+    else:
+        print(f'Found {len(nonUniqueIDs)} "repeated match IDs out of {count} matches')
 
 def cleanDataSet(filename, new_filename):
     removeDuplicates(filename, new_filename)
