@@ -1,7 +1,8 @@
 import csv
 
-def validateDataSet(filename):
-    checkUniqueness(filename)
+def clean(original_file, new_file):
+    checkUniqueness(original_file)
+    removeDuplicates(original_file, new_file)
 
 def checkUniqueness(filename):
     matchIDs = set()
@@ -46,8 +47,3 @@ def removeDuplicates(filename, new_filename):
                 new_file.write(','.join(row))
             matchIDs.add(matchID)
     new_file.close()
-
-filename = '../../data/pre-cleaning-dataset.csv'
-new_filename = '../../data/post-cleaning-dataset.csv'
-validateDataSet(filename)
-cleanDataSet(filename, new_filename)
