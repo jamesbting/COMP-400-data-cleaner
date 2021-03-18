@@ -14,7 +14,7 @@ def calculate_winrate(file_name, output):
     f.close()   
     print("Done calculating winrate.")
     with open(output, 'w') as f:
-        f.write(str([blue_wins, total_games]))
+        f.write(str('\n'.join([str(blue_wins), str(total_games)])))
     f.close()
-    return [blue_wins, total_games]
+    
     

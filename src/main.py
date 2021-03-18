@@ -26,7 +26,7 @@ config = {
     },
     'win_rate': {
         'enabled': True, 
-        'output': '../../data/winrate.txt'
+        'output': '../../data/win_rate.txt'
     }
 }
 
