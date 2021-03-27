@@ -28,7 +28,7 @@ def checkUniqueness(filename):
 def cleanDataSet(filename, new_filename):
     removeDuplicates(filename, new_filename)
 
-def get_headers(filename = "../../headers.txt"):
+def get_headers(filename = "../data/headers.txt"):
     f = open(filename,"r")
     content = f.read()
     f.close()

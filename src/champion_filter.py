@@ -29,6 +29,34 @@ def filter_champions(file_name, output_file_name, desired_columns, champion_dict
         print('Found and filtered', i, 'valid matches with no missing data')
     output_file.close()
     print('Done filtering data.')
+
+def filter_champions_no_header(file_name, output_file_name, desired_columns, champion_dictionary):
+    valid_length = 1150
+    output_file = open(output_file_name, "w")
+    champion_dictionary = json.load(open(champion_dictionary, 'r'))
+    with open(file_name, "r") as input_file:
+        reader = csv.reader(input_file, delimiter = ',')
+        first_row = True
+        selected_columns = []
+        i = 0
+        for row in reader:
+            #read first line from csv to obtain the indexes to obtain
+            #store the length of the title line
+            if first_row:
+                selected_columns = get_selected_column_indexes(row, desired_columns)
+                print('The selected indexes are:', selected_columns)
+                first_row = False
+            #read each line and write it to a seperate file
+            #verify the length of the line is correct, if incorrect then next
+            elif len(row) == valid_length:
+                cols = get_selected_columns(row,selected_columns)
+                cols = convert_to_champion_key(cols, champion_dictionary)
+                output_file.write(','.join(cols))
+                output_file.write('\n')
+                i += 1
+        print('Found and filtered', i, 'valid matches with no missing data')
+    output_file.close()
+    print('Done filtering data.')
        
 def get_selected_column_indexes(row, desired_columns):
     selected_columns = []

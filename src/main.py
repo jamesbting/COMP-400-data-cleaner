@@ -1,16 +1,17 @@
 from cleaner import clean
-from champion_filter import filter_champions
+import champion_filter as filter
 from win_rate import calculate_winrate as win_rate
 config = {
     'clean': {
-        "enabled": False,
-        "original": '../../data/pre-cleaning-dataset.csv',
-        "cleaned": '../../data/post-cleaning-dataset.csv'
+        "enabled": True,
+        "original": '../data/pre-cleaning-dataset.csv',
+        "cleaned": '../data/post-cleaning-dataset.csv'
     },
     'filter_champions': {
-        "enabled": False,
-        'champion_dictionary': "../../data/champions-cleaned.json",
-        'output':"../../data/filtered-dataset.csv",
+        "enabled": True,
+        'champion_dictionary': "../data/champions-cleaned.json",
+        'output':"../data/filtered-dataset.csv",
+        'output-no-header': "../data/filtered-dataset-no-header.csv",
         'desired_columns':  [
             'teams.0.win',
             'participants.0.championId',
@@ -26,7 +27,7 @@ config = {
     },
     'win_rate': {
         'enabled': True, 
-        'output': '../../data/win_rate.txt'
+        'output': '../data/win_rate.txt'
     }
 }
 
@@ -36,7 +37,9 @@ def main():
         clean(config['clean']['original'], config['clean']['cleaned'])
     if(config['filter_champions']["enabled"]):
         print('Filtering champion data from the dataset...')
-        filter_champions(config['clean']["cleaned"], config['filter_champions']["output"],config['filter_champions']["desired_columns"], config['filter_champions']["champion_dictionary"])
+        filter.filter_champions(config['clean']["cleaned"], config['filter_champions']["output"],config['filter_champions']["desired_columns"], config['filter_champions']["champion_dictionary"])
+        print('Filtering champion data from the dataset...')
+        filter.filter_champions_no_header(config['clean']["cleaned"], config['filter_champions']["output-no-header"],config['filter_champions']["desired_columns"], config['filter_champions']["champion_dictionary"])
     if(config['win_rate']['enabled']):
         print('Computing the winrate...')
         win_rate(config['filter_champions']['output'],config['win_rate']['output'])
