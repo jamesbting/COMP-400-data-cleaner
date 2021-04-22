@@ -1,45 +1,44 @@
+# this program checks for uniqueness of match IDs and removes the duplicates
 import csv
+
 
 def clean(original_file, new_file):
     checkUniqueness(original_file)
     removeDuplicates(original_file, new_file)
 
+
 def checkUniqueness(filename):
     matchIDs = set()
-    nonUniqueIDs = set()
     count = 0
-    with open(filename,"r") as f:
-        reader = csv.reader(f,delimiter = ',')
+    duplicates = 0
+    with open(filename, "r") as f:
+        reader = csv.reader(f, delimiter=',')
         for row in reader:
             matchID = row[0]
-            if matchID in matchIDs:
-                if matchID not in nonUniqueIDs:
-                        nonUniqueIDs.add(matchID)
-            else:
+            if matchID not in matchIDs:
                 matchIDs.add(matchID)
+            else:
+                duplicates += 1
             count += 1
     f.close()
-    
-    if(nonUniqueIDs == set()):
-        print("Every matchID is unique!")
-    else:
-        print(f'Found {len(nonUniqueIDs)} "repeated match IDs out of {count} matches')
+    print(f'Found {duplicates} "repeated match IDs out of {count} matches')
 
-def cleanDataSet(filename, new_filename):
-    removeDuplicates(filename, new_filename)
 
-def get_headers(filename = "../data/headers.txt"):
-    f = open(filename,"r")
+# load the headers
+def get_headers(filename="../data/headers.txt"):
+    f = open(filename, "r")
     content = f.read()
     f.close()
     return content
 
+
+# remove the duplicate match IDs, and remove the match IDs with incorrect length
 def removeDuplicates(filename, new_filename):
     matchIDs = set()
     new_file = open(new_filename, "w")
     new_file.write(get_headers())
-    with open(filename,"r") as f:
-        reader = csv.reader(f,delimiter = ',')
+    with open(filename, "r") as f:
+        reader = csv.reader(f, delimiter=',')
         for row in reader:
             matchID = row[0]
             if matchID not in matchIDs and len(row) == 1150:
